@@ -9,6 +9,11 @@ function App() {
   const[loading,setLoading]=useState(true); //in the start we see the loading component
   const[tours,setTours]=useState([]);
 
+  const removeTour=(id)=>{
+    const newTours=tours.filter((tour)=>tour.id!==id);
+    setTours(newTours);
+  };
+
   //even if we start the loading with false, when you start fetching it will be true
   const fetchTours=async()=>{
     setLoading(true);
@@ -31,8 +36,20 @@ function App() {
       <Loading></Loading>
     </main>);
   }
+  if(tours.length===0){
+    return (
+      <main>
+        <div className='title'>
+          <h2>no tours left</h2>
+          <button className='btn' onClick={fetchTours}>
+            refresh
+          </button>
+        </div>
+      </main>
+    )
+  }
   return( <main>
-    <Tours tours={tours}></Tours>
+    <Tours tours={tours} removeTour={removeTour}></Tours>
 
   </main>
   );
